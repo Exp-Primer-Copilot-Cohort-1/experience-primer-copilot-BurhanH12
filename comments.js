@@ -1,42 +1,11 @@
-// Create a web server
-// 1. Create a web server
-// 2. Create a route for the home page
-// 3. Create a route for an about page
-// 4. Create a route for a 404 page
-// 5. Have the 404 route print out a message to the user
-// 6. Test your work
+// Create a web server that can respond to requests for /comments.json with a JSON-encoded version of the comments list and can serve the compiled JSX version of the comments as HTML to requests for /comments.html. Use the same code for server-side rendering of the comment box HTML from the previous exercise.
+// Hint: You can use the res.end(JSON.stringify(comments)) method to serialize a JSON string. Remember to set the Content-Type header to application/json in your response.
 
-const express = require('express');
-const app = express();
-const port = 3000;
+var http = require('http');
+var fs = require('fs');
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
 
-app.get('', (req, res) => {
-    res.send('<h1>Weather</h1>');
-});
+var CommentBox = require('./comment-box');
 
-app.get('/about', (req, res) => {
-    res.send('<h1>About</h1>');
-});
-
-app.get('/help', (req, res) => {
-    res.send('<h1>Help</h1>');
-});
-
-app.get('/weather', (req, res) => {
-    res.send({
-        forecast: '50 degrees',
-        location: 'Philadelphia'
-    });
-});
-
-app.get('/help/*', (req, res) => {
-    res.send('Help article not found');
-});
-
-app.get('*', (req, res) => {
-    res.send('My 404 page');
-});
-
-app.listen(port, () => {
-    console.log('Server is up on port ' + port);
-});
+var comments = [];
